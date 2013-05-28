@@ -19,11 +19,10 @@ describe "Authentication" do
 
       it { should have_selector('title', text: 'Sign in') }
       it { should have_error_message('Invalid') }
-
-      describe "after visiting another page" do
-        before { click_link "Home" }
-        it { should_not have_selector('div.alert.alert-error') }
-      end
+      it { should_not have_link('Users', href: users_path) }
+      it { should_not have_link('Profile') }
+      it { should_not have_link('Settings') }
+      it { should_not have_link('Sign out') }
     end
 
     describe "with valid information" do
@@ -38,6 +37,11 @@ describe "Authentication" do
       it { should have_link('Sign out', href: signout_path) }
       
       it { should_not have_link('Sign in', href: signin_path) }
+
+      describe "after visiting User#create" do
+        before { get signup_path }
+        specify { response.should redirect_to(root_path) }
+      end
 
       describe "followed by signout" do
         before { click_link "Sign out" }

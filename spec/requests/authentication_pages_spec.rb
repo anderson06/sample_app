@@ -39,8 +39,8 @@ describe "Authentication" do
       it { should_not have_link('Sign in', href: signin_path) }
 
       describe "after visiting User#create" do
-        before { get signup_path }
-        specify { response.should redirect_to(root_path) }
+        before { visit signup_path }
+        it { should have_selector('title', text: 'Home') }
       end
 
       describe "followed by signout" do
